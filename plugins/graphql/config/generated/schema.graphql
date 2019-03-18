@@ -14,6 +14,14 @@ type createRolePayload {
   role: UsersPermissionsRole
 }
 
+input createSlideInput {
+  data: SlideInput
+}
+
+type createSlidePayload {
+  slide: Slide
+}
+
 input createUserInput {
   data: UserInput
 }
@@ -41,6 +49,14 @@ input deleteRoleInput {
 
 type deleteRolePayload {
   role: UsersPermissionsRole
+}
+
+input deleteSlideInput {
+  where: InputID
+}
+
+type deleteSlidePayload {
+  slide: Slide
 }
 
 input deleteUserInput {
@@ -81,6 +97,10 @@ input editRoleInput {
   users: [ID]
 }
 
+input editSlideInput {
+  image: ID
+}
+
 input editUserInput {
   username: String
   email: String
@@ -114,12 +134,15 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Post | createPostPayload | updatePostPayload | deletePostPayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Post | createPostPayload | updatePostPayload | deletePostPayload | Slide | createSlidePayload | updateSlidePayload | deleteSlidePayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
   createPost(input: createPostInput): createPostPayload
   updatePost(input: updatePostInput): updatePostPayload
   deletePost(input: deletePostInput): deletePostPayload
+  createSlide(input: createSlideInput): createSlidePayload
+  updateSlide(input: updateSlideInput): updateSlidePayload
+  deleteSlide(input: deleteSlideInput): deleteSlidePayload
 
   """Create a new role"""
   createRole(input: createRoleInput): createRolePayload
@@ -166,6 +189,8 @@ input PostInput {
 type Query {
   post(id: ID!): Post
   posts(sort: String, limit: Int, start: Int, where: JSON): [Post]
+  slide(id: ID!): Slide
+  slides(sort: String, limit: Int, start: Int, where: JSON): [Slide]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
   role(id: ID!): UsersPermissionsRole
 
@@ -186,6 +211,17 @@ input RoleInput {
   users: [ID]
 }
 
+type Slide {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  image: UploadFile
+}
+
+input SlideInput {
+  image: ID
+}
+
 input updatePostInput {
   where: InputID
   data: editPostInput
@@ -202,6 +238,15 @@ input updateRoleInput {
 
 type updateRolePayload {
   role: UsersPermissionsRole
+}
+
+input updateSlideInput {
+  where: InputID
+  data: editSlideInput
+}
+
+type updateSlidePayload {
+  slide: Slide
 }
 
 input updateUserInput {
