@@ -1,0 +1,7 @@
+{
+  "routes": [{
+    "method": "GET",
+    "path": "/",
+    "handler": "mainpage.index"
+  }]
+}
