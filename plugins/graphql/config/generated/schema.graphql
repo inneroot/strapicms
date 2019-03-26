@@ -14,6 +14,14 @@ type createRolePayload {
   role: UsersPermissionsRole
 }
 
+input createScheduleInput {
+  data: ScheduleInput
+}
+
+type createSchedulePayload {
+  schedule: Schedule
+}
+
 input createSlideInput {
   data: SlideInput
 }
@@ -49,6 +57,14 @@ input deleteRoleInput {
 
 type deleteRolePayload {
   role: UsersPermissionsRole
+}
+
+input deleteScheduleInput {
+  where: InputID
+}
+
+type deleteSchedulePayload {
+  schedule: Schedule
 }
 
 input deleteSlideInput {
@@ -97,6 +113,13 @@ input editRoleInput {
   users: [ID]
 }
 
+input editScheduleInput {
+  date: DateTime
+  title: String
+  services: String
+  color: ENUM_SCHEDULE_COLOR
+}
+
 input editSlideInput {
   image: ID
 }
@@ -110,6 +133,16 @@ input editUserInput {
   confirmed: Boolean
   blocked: Boolean
   role: ID
+}
+
+enum ENUM_SCHEDULE_COLOR {
+  LightGray
+  Red
+  Blue
+  Green
+  Yellow
+  Purple
+  Black
 }
 
 input FileInput {
@@ -134,12 +167,15 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Post | createPostPayload | updatePostPayload | deletePostPayload | Slide | createSlidePayload | updateSlidePayload | deleteSlidePayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
+union Morph = UsersPermissionsMe | UsersPermissionsMeRole | Post | createPostPayload | updatePostPayload | deletePostPayload | Schedule | createSchedulePayload | updateSchedulePayload | deleteSchedulePayload | Slide | createSlidePayload | updateSlidePayload | deleteSlidePayload | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | createRolePayload | updateRolePayload | deleteRolePayload | UsersPermissionsUser | createUserPayload | updateUserPayload | deleteUserPayload
 
 type Mutation {
   createPost(input: createPostInput): createPostPayload
   updatePost(input: updatePostInput): updatePostPayload
   deletePost(input: deletePostInput): deletePostPayload
+  createSchedule(input: createScheduleInput): createSchedulePayload
+  updateSchedule(input: updateScheduleInput): updateSchedulePayload
+  deleteSchedule(input: deleteScheduleInput): deleteSchedulePayload
   createSlide(input: createSlideInput): createSlidePayload
   updateSlide(input: updateSlideInput): updateSlidePayload
   deleteSlide(input: deleteSlideInput): deleteSlidePayload
@@ -189,6 +225,8 @@ input PostInput {
 type Query {
   post(id: ID!): Post
   posts(sort: String, limit: Int, start: Int, where: JSON): [Post]
+  schedule(id: ID!): Schedule
+  schedules(sort: String, limit: Int, start: Int, where: JSON): [Schedule]
   slide(id: ID!): Slide
   slides(sort: String, limit: Int, start: Int, where: JSON): [Slide]
   files(sort: String, limit: Int, start: Int, where: JSON): [UploadFile]
@@ -209,6 +247,23 @@ input RoleInput {
   type: String
   permissions: [ID]
   users: [ID]
+}
+
+type Schedule {
+  id: ID!
+  created_at: DateTime!
+  updated_at: DateTime!
+  date: DateTime!
+  title: String!
+  services: String!
+  color: ENUM_SCHEDULE_COLOR!
+}
+
+input ScheduleInput {
+  date: DateTime!
+  title: String!
+  services: String!
+  color: ENUM_SCHEDULE_COLOR!
 }
 
 type Slide {
@@ -238,6 +293,15 @@ input updateRoleInput {
 
 type updateRolePayload {
   role: UsersPermissionsRole
+}
+
+input updateScheduleInput {
+  where: InputID
+  data: editScheduleInput
+}
+
+type updateSchedulePayload {
+  schedule: Schedule
 }
 
 input updateSlideInput {

@@ -1,0 +1,45 @@
+{
+  "connection": "default",
+  "collectionName": "schedules",
+  "info": {
+    "name": "schedule",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "date": {
+      "default": "",
+      "unique": true,
+      "type": "date",
+      "required": true
+    },
+    "title": {
+      "default": "",
+      "type": "text",
+      "required": true
+    },
+    "services": {
+      "default": "",
+      "type": "text",
+      "required": true
+    },
+    "color": {
+      "enum": [
+        "LightGray",
+        "Red",
+        "Blue",
+        "Green",
+        "Yellow",
+        "Purple",
+        "Black"
+      ],
+      "default": "LightGray",
+      "type": "enumeration",
+      "required": true
+    }
+  }
+}
